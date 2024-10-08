@@ -26,13 +26,39 @@ plt.plot(time, vals)
 plt.savefig("2b.pdf")
 plt.show()
 
-# c)
+# c) Nu merge   :((((
 # def semnal_sawtooth(t):
 #     return np.mod(1, np.sin(2 * np.pi * 240 * t))
-# 
+#
 # time = np.arange(0, 0.03, 0.0005)
 # vals = semnal_sawtooth(time)
 # plt.plot(time, vals)
 # plt.savefig("2c.pdf")
 # plt.show()
 
+# d)
+def semnal_square(t):
+    return np.sign(np.sin(2 * np.pi * 300 * t))
+time = np.arange(0, 0.006, 0.00005)
+vals = semnal_square(time)
+plt.plot(time, vals)
+plt.savefig("2d.pdf")
+plt.show()
+
+# e)
+arr = np.random.rand(128, 128)
+plt.imshow(arr)
+plt.savefig("2e.pdf")
+plt.show()
+
+# f)
+def initializare():
+    a = np.random.rand(128, 128)
+    a = np.sort(a, axis=1)
+    return a
+
+
+arr = initializare()
+plt.imshow(arr)
+plt.savefig("2f.pdf")
+plt.show()
