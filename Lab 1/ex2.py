@@ -26,15 +26,17 @@ plt.plot(time, vals)
 plt.savefig("2b.pdf")
 plt.show()
 
-# c) Nu merge   :((((
-# def semnal_sawtooth(t):
-#     return np.mod(1, np.sin(2 * np.pi * 240 * t))
-#
-# time = np.arange(0, 0.03, 0.0005)
-# vals = semnal_sawtooth(time)
-# plt.plot(time, vals)
-# plt.savefig("2c.pdf")
-# plt.show()
+# c)
+def semnal_sawtooth(t):
+    frecv = 240
+    T = 1 / frecv
+    return np.mod(time, T) / T - 0.5
+
+time = np.arange(0, 0.015, 0.00005)
+vals = semnal_sawtooth(time)
+plt.plot(time, vals)
+plt.savefig("2c.pdf")
+plt.show()
 
 # d)
 def semnal_square(t):
