@@ -17,7 +17,11 @@ for i in range(1, 100):
 
 FFT_matr = []
 for g in grupuri:
-    FFT_matr.append(np.abs(np.fft.fft(g)))
+    N = len(g)
+    X = np.fft.fft(g)
+    X = abs(X/N)
+    X = X[:N//2]
+    FFT_matr.append(X)
 
 
 FFT_matr.pop(-1)
