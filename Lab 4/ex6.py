@@ -23,7 +23,7 @@ for g in grupuri:
 FFT_matr.pop(-1)
 FFT_matr.pop(0)
 print(np.array(FFT_matr).T.shape)
-plt.imshow(np.array(FFT_matr).T, aspect='auto')
+plt.imshow(10 * np.log10(np.array(FFT_matr).T), aspect='auto')
 plt.colorbar()
 plt.savefig("ex6.pdf")
 plt.savefig("ex6.png")
