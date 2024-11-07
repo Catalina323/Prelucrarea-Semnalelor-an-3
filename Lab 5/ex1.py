@@ -53,7 +53,7 @@ plt.savefig("ex1g.pdf")
 plt.savefig("ex1g.png")
 
 # h)
-# cri cri
+# :(
 
 # i)
 X = np.fft.fft(luna)
