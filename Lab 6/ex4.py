@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sympy.abc import alpha
+import scipy
 
 x = np.genfromtxt("Train.csv", delimiter=",", skip_header=True, usecols=-1, dtype=int)
 
@@ -10,7 +11,8 @@ def filtru(w, sig):
 # o saptamana
 # fs = 1 ora
 # primele 3 zile
-x = x[100:100+24*3]
+fs = 1 / 3600
+x = x[:72]
 
 # b)
 sig_w5 = filtru(5, x)
@@ -30,6 +32,28 @@ plt.show()
 
 # c)
 
+# d)
+
+N = 5
+rp = 5
+Wn = fs * 0.05
+
+b1, a1 = scipy.signal.butter(N, Wn, btype='low', fs=fs)
+x_filt_butter = scipy.signal.filtfilt(b1, a1, x)
+
+b2, a2 = scipy.signal.cheby1(N, rp, Wn, btype='low', fs=fs)
+x_filt_cheby1 = scipy.signal.filtfilt(b2, a2, x)
 
 
+plt.plot(x, label="Semnal initial")
+plt.plot(x_filt_butter, alpha=0.5, label="Butterworth")
+plt.plot(x_filt_cheby1, alpha=0.5, label="Chebyshev")
+plt.legend()
+plt.savefig("ex4d.pdf")
+plt.savefig("ex4d.png")
+plt.show()
+
+# e)
+
+# f)
 
