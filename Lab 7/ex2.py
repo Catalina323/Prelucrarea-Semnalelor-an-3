@@ -27,6 +27,8 @@ snr_value = compute_snr(X, noise)
 print(snr_value)
 
 plt.imshow(X_filtered, cmap=plt.cm.gray)
+plt.savefig("ex2.pdf")
+plt.savefig("ex2.png")
 plt.show()
 
 
