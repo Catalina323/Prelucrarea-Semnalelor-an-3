@@ -56,7 +56,7 @@ p_opt = 0
 m_opt = 0
 min_err = float('inf')
 ps = []
-for p in range(1, 20):
+for p in range(1, 90):
     for m in range(100, 900, 2):
         y = np.transpose(np.flip(serie[:m + p]))
 
