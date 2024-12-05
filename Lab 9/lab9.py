@@ -1,0 +1,87 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
+import statsmodels
+
+# ex 1
+
+N = 1000
+# time = np.arange(0, 1, 1/N)
+time = np.linspace(0, 1, N)
+trend = 10 * time * time + 0.1 * time + 0.2
+sezon = np.sin(2 * np.pi * time * 10) + np.sin(2 * np.pi * time * 80)
+variatii = np.random.normal(0, 0.8, N)
+x = trend + sezon + variatii
+
+
+# ex 2
+def creare_serie(alpha):
+    s = np.zeros(N)
+    s[0] = x[0]
+    for t in range(1, N):
+        s[t] = alpha * x[t] + (1 - alpha) * s[t - 1]
+
+    return s
+
+
+s = creare_serie(0.5)
+plt.plot(x)
+plt.plot(s)
+plt.legend(["serie initiala", "serie noua"])
+plt.savefig("ex2.pdf")
+plt.savefig("ex2.png")
+plt.show()
+
+# ex 2 gasim alpha optim
+
+alphs = np.linspace(0, 1, 1000)
+min_err = float("inf")
+best_alpha = 0
+for alpha in alphs:
+    s = creare_serie(alpha)
+    err = 0
+    for t in range(N-1):
+        err += (s[t] - x[t+1]) ** 2
+    if err < min_err:
+        min_err = err
+        best_alpha = alpha
+
+print(best_alpha)
+
+
+# ex 3  NETERMINAT
+# q = 10
+# # trebuie ca q < N // 2
+# n_pred = 5
+#
+# x_test = x[len(x) - n_pred:]
+# x_train = x[:len(x) - n_pred]
+#
+# e = np.random.normal(0, 1, len(x))
+# e_test = e[len(e) - n_pred:]
+# e_train = x[:len(e) - n_pred]
+#
+# mean = np.mean(x_train)
+# # y = ultimii q termeni ai seriei (cei mai recenti)
+# # y = x[len(x)-q:]
+# y = [(i, x_train[i] - mean) for i in range(len(x_train)-q, len(x_train))]
+#
+# X = []
+# for i,_ in y:
+#     X.append(np.concatenate((np.array([mean]),e_train[i-q:i])))
+#
+# X = np.array(X)
+# # asta pt mai tarziu
+# ths, residuals, rank, s = np.linalg.lstsq(X, y, rcond=None)
+# # print(ths)
+#
+# print(ths.shape)
+#
+# E = []
+# for i in range(len(e)-n_pred, len(e)):
+#     E.append(np.concatenate((np.array([mean]),e_test[i-q:i])))
+#
+# E = np.array(E)
+# y_pred = np.dot(ths, E)
+# print(y_pred)
+
