@@ -48,40 +48,52 @@ for alpha in alphs:
 
 print(best_alpha)
 
+# ex 3
+q = 300
+# trebuie ca q < N // 2
+n_pred = 5
 
-# ex 3  NETERMINAT
-# q = 10
-# # trebuie ca q < N // 2
-# n_pred = 5
-#
-# x_test = x[len(x) - n_pred:]
-# x_train = x[:len(x) - n_pred]
-#
-# e = np.random.normal(0, 1, len(x))
-# e_test = e[len(e) - n_pred:]
-# e_train = x[:len(e) - n_pred]
-#
-# mean = np.mean(x_train)
-# # y = ultimii q termeni ai seriei (cei mai recenti)
-# # y = x[len(x)-q:]
+x_test = x[len(x) - n_pred:]
+x_train = x[:len(x) - n_pred]
+
+e = np.random.normal(0, 1, len(x))
+e_test = e[len(e) - n_pred:]
+e_train = x[:len(e) - n_pred]
+
+mean = np.mean(x_train)
+# y = ultimii q termeni ai seriei (cei mai recenti)
+
 # y = [(i, x_train[i] - mean) for i in range(len(x_train)-q, len(x_train))]
-#
-# X = []
-# for i,_ in y:
-#     X.append(np.concatenate((np.array([mean]),e_train[i-q:i])))
-#
-# X = np.array(X)
-# # asta pt mai tarziu
-# ths, residuals, rank, s = np.linalg.lstsq(X, y, rcond=None)
-# # print(ths)
-#
-# print(ths.shape)
-#
-# E = []
-# for i in range(len(e)-n_pred, len(e)):
-#     E.append(np.concatenate((np.array([mean]),e_test[i-q:i])))
-#
-# E = np.array(E)
-# y_pred = np.dot(ths, E)
-# print(y_pred)
+y = [(i, x_train[i] - mean - e_train[i]) for i in range(len(x_train) - q, len(x_train))]
+
+X = []
+for i, _ in y:
+    # X.append(np.concatenate((np.array([mean]),e_train[i-q:i])))
+    X.append(e_train[i - q: i])
+
+X = np.array(X)
+y = np.array([a[1] for a in y])
+
+# asta pt mai tarziu
+ths, residuals, rank, s = np.linalg.lstsq(X, y, rcond=None)
+
+ths = np.concatenate((np.array([1]), ths))
+ths = np.concatenate((ths, np.array([1])))
+
+for j in range(n_pred):
+    E = e[N - q - n_pred + j: N - n_pred + j + 1]
+
+    E = np.concatenate((np.array([mean]), E))
+
+    pred = np.dot(ths, E)
+
+    plt.stem(time[N - n_pred + j], pred, linefmt='g-', markerfmt='go')
+    plt.stem(time[N - n_pred + j], x[N - n_pred + j], linefmt='r-', markerfmt='ro')
+
+plt.plot(time[N - 50: N - n_pred], x[N - 50: N - n_pred])
+plt.title(f"Predictia urmatoarelor {n_pred} valori")
+plt.legend(("grafic", "valoarea prezisa", "valoarea reala"))
+plt.savefig("ex3.pdf")
+plt.savefig("ex3.png")
+plt.show()
 
