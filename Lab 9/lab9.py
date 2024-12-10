@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.metrics import mean_squared_error
-import statsmodels
+from statsmodels.tsa.arima.model import ARIMA
 
 # ex 1
 
@@ -97,3 +96,15 @@ plt.savefig("ex3.pdf")
 plt.savefig("ex3.png")
 plt.show()
 
+# ex 4
+p_opt = 2
+q_opt = 2
+model = ARIMA(x, order=(p_opt, 0, q_opt))
+fitted_model = model.fit()
+
+plt.plot(x, label='Seria de timp')
+plt.plot(fitted_model.fittedvalues, label='Predictii', color='red')
+plt.legend()
+plt.savefig("ex4.pdf")
+plt.savefig("ex4.png")
+plt.show()
